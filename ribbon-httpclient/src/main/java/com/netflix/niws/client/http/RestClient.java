@@ -31,6 +31,7 @@ import java.util.Map;
 import org.apache.http.HttpHost;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.UserTokenHandler;
+import org.apache.http.client.protocol.RequestAddCookies;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.params.ConnRouteParams;
 import org.apache.http.conn.scheme.Scheme;
@@ -171,6 +172,10 @@ public class RestClient extends AbstractLoadBalancerAwareClient<HttpRequest, Htt
             // DONT use our NFHttpClient's default Retry Handler since we have
             // retry handling (same server/next server) in RestClient itself
             ((AbstractHttpClient) httpClient4).setHttpRequestRetryHandler(new NFHttpMethodRetryHandler(restClientName, 0, false, 0));
+            if (Boolean.parseBoolean(String.valueOf(ncc.getProperty(CommonClientConfigKey.DisableCookies)))) {
+                ((AbstractHttpClient) httpClient4).removeRequestInterceptorByClass(RequestAddCookies.class);
+            }
+
         } else {
             logger.warn("Unexpected error: Unable to disable NFHttpClient "
                     + "retry handler, this most likely will not cause an "

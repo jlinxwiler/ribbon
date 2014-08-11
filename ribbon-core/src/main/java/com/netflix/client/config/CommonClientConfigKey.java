@@ -184,6 +184,8 @@ public abstract class CommonClientConfigKey<T> implements IClientConfigKey<T> {
     
     public static final IClientConfigKey<String> ListOfServers = new CommonClientConfigKey<String>("listOfServers") {};
 
+    public static final IClientConfigKey<Boolean> DisableCookies = new CommonClientConfigKey<Boolean>("DisableCookies") {};
+
     private static final Set<IClientConfigKey> keys = new HashSet<IClientConfigKey>();
         
     static {
